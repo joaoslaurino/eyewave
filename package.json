@@ -1,0 +1,26 @@
+{
+  "name": "eyewave",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive, physically-grounded simulator of ocular aberrations and the point spread function.",
+  "license": "MIT",
+  "author": "João Vitor Laurino",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joaoslaurino/eyewave.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
+  }
+}

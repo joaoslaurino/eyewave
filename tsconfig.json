@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    /* ---- Language and environment ---------------------------------- */
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "moduleDetection": "force",
+
+    /* ---- Modules ---------------------------------------------------- */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+
+    /* ---- Type checking only; Vite and Vitest do the transpiling ----- */
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    /* ---- Strictness -------------------------------------------------- */
+    "strict": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src", "tests"]
+}
