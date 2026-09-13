@@ -49,16 +49,18 @@ Point Spread Function  PSF(x,y)                    [retinal irradiance]
 ### Refraction ↔ Zernike
 
 Sphere/cylinder/axis are not a separate world from Zernike — they *are* the second-order
-terms. For a pupil of radius `r` (mm), with sphere `S`, cylinder `C` (dioptres, negative-cyl
-convention) and axis `θ`:
+terms. For a pupil of radius `r` (mm), with sphere `S`, cylinder `C` (dioptres) and axis `α`:
 
 $$
 c_2^{0} = -\frac{\left(S + C/2\right) r^{2}}{4\sqrt{3}}
 \qquad
-c_2^{2} = -\frac{C\, r^{2} \cos 2\theta}{2\sqrt{6}}
+c_2^{2} = \frac{C\, r^{2} \cos 2\alpha}{4\sqrt{6}}
 \qquad
-c_2^{-2} = -\frac{C\, r^{2} \sin 2\theta}{2\sqrt{6}}
+c_2^{-2} = \frac{C\, r^{2} \sin 2\alpha}{4\sqrt{6}}
 $$
+
+The derivation, the power-vector formulation behind it and the sign conventions are in
+[`docs/refraction.md`](docs/refraction.md).
 
 EyeWave therefore offers **two input modes over one engine**:
 
@@ -130,6 +132,9 @@ tests/         numerical test suites
 validation/    Python reference notebooks and generated fixtures
 docs/          the mathematics, written out
 ```
+
+Physics documentation is kept separate from the code: [`docs/`](docs/) carries the
+derivations, conventions and numerical reasoning, and comments in `src/` stay short.
 
 ---
 
