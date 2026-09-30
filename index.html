@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EyeWave — visual bench</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #12141a;
+        --panel: #1b1e26;
+        --line: #2b303c;
+        --text: #e6e8ee;
+        --muted: #949bad;
+        --accent: #6aa9ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px;
+        background: var(--bg);
+        color: var(--text);
+        font: 14px/1.5 system-ui, -apple-system, Segoe UI, sans-serif;
+      }
+
+      h1 {
+        margin: 0 0 4px;
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .subtitle {
+        margin: 0 0 24px;
+        color: var(--muted);
+        max-width: 68ch;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      @media (max-width: 860px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px;
+      }
+
+      .panel + .panel {
+        margin-top: 16px;
+      }
+
+      .control {
+        margin-bottom: 14px;
+      }
+
+      .control:last-child {
+        margin-bottom: 0;
+      }
+
+      .control-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 4px;
+      }
+
+      .control-head label {
+        font-size: 13px;
+      }
+
+      .control-head output {
+        font-variant-numeric: tabular-nums;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        color: var(--accent);
+      }
+
+      input[type='range'] {
+        width: 100%;
+        accent-color: var(--accent);
+      }
+
+      select,
+      button {
+        background: #232733;
+        color: var(--text);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 6px 10px;
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      button:hover {
+        border-color: var(--accent);
+      }
+
+      .note {
+        color: var(--muted);
+        font-size: 12px;
+        margin: 10px 0 0;
+      }
+
+      .map-wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        gap: 20px;
+      }
+
+      @media (max-width: 720px) {
+        .map-wrap {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      #wavefront {
+        width: 100%;
+        max-width: 420px;
+        aspect-ratio: 1;
+        display: block;
+        border-radius: 50%;
+        background: #0c0e13;
+      }
+
+      .legend {
+        margin-top: 10px;
+        max-width: 420px;
+      }
+
+      .legend-bar {
+        height: 10px;
+        border-radius: 5px;
+        border: 1px solid var(--line);
+      }
+
+      .legend-labels {
+        display: flex;
+        justify-content: space-between;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 5px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      th {
+        font-weight: 500;
+        color: var(--muted);
+      }
+
+      td {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+      }
+
+      .gallery {
+        margin-top: 20px;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+        gap: 12px;
+      }
+
+      .mode {
+        text-align: center;
+      }
+
+      .mode canvas {
+        width: 100%;
+        aspect-ratio: 1;
+        display: block;
+        border-radius: 50%;
+        background: #0c0e13;
+      }
+
+      .mode-label {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 5px;
+        line-height: 1.35;
+      }
+
+      .mode-label strong {
+        display: block;
+        color: var(--text);
+        font-weight: 500;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>EyeWave — visual bench</h1>
+    <p class="subtitle">
+      A development harness for the physics core. Wavefront maps are rendered straight from
+      <code>src/core/</code> with no interface framework, so the shapes below are a direct
+      check on the Zernike basis, the sampling grid and the refraction conversion.
+    </p>
+
+    <div class="layout">
+      <div>
+        <div class="panel">
+          <h2>Pupil</h2>
+          <div id="pupil-controls"></div>
+          <div class="control">
+            <div class="control-head">
+              <label for="resolution">Grid resolution</label>
+            </div>
+            <select id="resolution">
+              <option value="128">128 × 128</option>
+              <option value="256" selected>256 × 256</option>
+              <option value="512">512 × 512</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Refraction</h2>
+          <div id="refraction-controls"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Higher-order aberrations</h2>
+          <div id="reference-controls"></div>
+          <div id="hoa-controls"></div>
+          <p class="note">
+            Coefficients in µm as an aberrometer would report them, measured over the reference
+            pupil. They are rescaled to the analysis pupil above, which mixes modes of the same
+            azimuthal frequency — so spherical aberration contributes defocus, and that defocus
+            depends on pupil size.
+          </p>
+          <p class="note"><button id="reset" type="button">Reset all</button></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel">
+          <h2>Wavefront error map</h2>
+          <div class="map-wrap">
+            <div>
+              <canvas id="wavefront"></canvas>
+              <div class="legend">
+                <div class="legend-bar" id="legend-bar"></div>
+                <div class="legend-labels">
+                  <span id="legend-min">—</span>
+                  <span>0</span>
+                  <span id="legend-max">—</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <table id="metrics">
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel gallery">
+          <h2>Zernike modes, orders 0–4</h2>
+          <div class="gallery-grid" id="gallery"></div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/bench/main.ts"></script>
+  </body>
+</html>

@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* ---- Language and environment ---------------------------------- */
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "moduleDetection": "force",
 
     /* ---- Modules ---------------------------------------------------- */

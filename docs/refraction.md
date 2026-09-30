@@ -151,9 +151,10 @@ severe halos at 6 mm while driving at night, and it is why the pupil slider is
 the most prominent control in the interface.
 
 It is also why **a coefficient set without its pupil diameter is unusable**.
-Rescaling coefficients between pupil sizes is possible but is not a simple
-multiplication: modes of different order mix, because a truncated $\rho^4$ term
-projects partly onto $\rho^2$. That conversion is deferred to a later phase.
+Rescaling coefficients between pupil sizes is not a simple multiplication: modes
+of the same azimuthal frequency mix, because a $\rho^4$ term restricted to a
+smaller disc projects partly onto $\rho^2$. That transformation is derived and
+implemented in [pupil-scaling.md](pupil-scaling.md).
 
 ## References
 

@@ -9,6 +9,8 @@ convention choices live here.
 | [conventions.md](conventions.md) | Units, coordinate system, branded types, reference wavelengths | [`units.ts`](../src/core/units.ts) |
 | [zernike.md](zernike.md) | The Zernike basis: indexing, radial polynomials, normalisation, orthonormality, numerics | [`zernike.ts`](../src/core/zernike.ts) |
 | [refraction.md](refraction.md) | Sphere/cylinder/axis, power vectors, and their exact correspondence with second-order Zernike terms | [`refraction.ts`](../src/core/refraction.ts) |
+| [wavefront.md](wavefront.md) | Sampling W over the pupil, precomputed basis, orientation, RMS and peak-to-valley | [`wavefront.ts`](../src/core/wavefront.ts) |
+| [pupil-scaling.md](pupil-scaling.md) | Rescaling coefficients between pupil sizes, why modes mix, and night myopia | [`pupilScaling.ts`](../src/core/pupilScaling.ts) |
 
 ## Notation used throughout
 
